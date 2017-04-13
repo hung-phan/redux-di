@@ -1,4 +1,4 @@
-import { Reducer } from "redux";
+import { Dispatch, Reducer } from "redux";
 import { identity } from "lodash";
 import * as update from "immutability-helper";
 import * as fetch from "isomorphic-fetch";
@@ -20,13 +20,18 @@ export const COMPLETE_TODO = "todos/COMPLETE_TODO";
 export const SET_TODOS = "todos/SET_TODOS";
 
 export type TodoType = { text: string, complete: boolean };
+export type AddTodoActionType = (text: string) => ActionWithPayload<string>;
+export type RemoveTodoActionType = (index: number) => ActionWithPayload<number>;
+export type CompleteTodoActionType = (index: string) => ActionWithPayload<number>;
+export type SetTodoActionType = (todos: TodoType[]) => ActionWithPayload<TodoType[]>;
+export type FetchTodosActionType = () => (dispatch: Dispatch<any>) => Promise<any>;
 
-export const addTodo: (text: string) => ActionWithPayload<string> = createAction(ADD_TODO);
-export const removeTodo: (index: number) => ActionWithPayload<number> = createAction(REMOVE_TODO);
-export const completeTodo: (index: number) => ActionWithPayload<number> = createAction(COMPLETE_TODO);
-export const setTodos: (todos: TodoType[]) => ActionWithPayload<TodoType[]> = createAction(SET_TODOS);
-export const fetchTodos = () =>
-  (dispatch: Function): Promise<TodoType[]> =>
+export const addTodo: AddTodoActionType = createAction(ADD_TODO);
+export const removeTodo: RemoveTodoActionType = createAction(REMOVE_TODO);
+export const completeTodo: CompleteTodoActionType = createAction(COMPLETE_TODO);
+export const setTodos: SetTodoActionType = createAction(SET_TODOS);
+export const fetchTodos: FetchTodosActionType = () =>
+  (dispatch) =>
     fetch(getUrl("/api/v1/todos"))
       .then((value: Response): Promise<TodoType[]> => value.json())
       .then((value: TodoType[]) => dispatch(setTodos(value)));
