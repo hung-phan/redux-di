@@ -1,8 +1,18 @@
 import React from "react";
 import { AddTodoActionType } from "./logicBundle";
 
-export default class TodoAdd extends React.PureComponent<{ addTodo: AddTodoActionType }, { todo: string }> {
+export interface TodosAddProps {
+  addTodo: AddTodoActionType;
+}
+
+export interface TodosAddState {
+  todo: string;
+}
+
+export default class TodosAdd extends React.PureComponent<TodosAddProps, TodosAddState> {
   state = { todo: "" };
+
+  props: TodosAddProps;
 
   updateTodo = (e) => {
     this.setState({ todo: e.target.value });

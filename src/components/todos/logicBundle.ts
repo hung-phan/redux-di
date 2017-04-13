@@ -1,15 +1,24 @@
-import { Dispatch, Reducer } from "redux";
+import { Reducer } from "redux";
 import { identity } from "lodash";
 import * as update from "immutability-helper";
 import * as fetch from "isomorphic-fetch";
 import { createAction, handleActions } from "redux-actions";
 import { getUrl } from "../../helpers/handleHTTP";
-import globalizeSelectors from "../../helpers/globalizeSelectors";
+import globalizeSelectors, { SelectorFunction } from "../../helpers/globalizeSelectors";
 import { ActionWithPayload } from "../../@types/app";
 
 export const mountPoint = "todos";
 
-export const selectors = globalizeSelectors(
+export type TodoType = { text: string, complete: boolean };
+export type AddTodoActionType = (text: string) => ActionWithPayload<string>;
+export type RemoveTodoActionType = (index: number) => ActionWithPayload<number>;
+export type CompleteTodoActionType = (index: number) => ActionWithPayload<number>;
+export type SetTodoActionType = (todos: TodoType[]) => ActionWithPayload<TodoType[]>;
+export type FetchTodosActionType = () => (dispatch: Function) => Promise<void>;
+
+export const selectors = globalizeSelectors<{
+  getTodos: SelectorFunction<TodoType[]>
+}>(
   { getTodos: identity },
   mountPoint
 );
@@ -18,13 +27,6 @@ export const ADD_TODO = "todos/ADD_TODO";
 export const REMOVE_TODO = "todos/REMOVE_TODO";
 export const COMPLETE_TODO = "todos/COMPLETE_TODO";
 export const SET_TODOS = "todos/SET_TODOS";
-
-export type TodoType = { text: string, complete: boolean };
-export type AddTodoActionType = (text: string) => ActionWithPayload<string>;
-export type RemoveTodoActionType = (index: number) => ActionWithPayload<number>;
-export type CompleteTodoActionType = (index: string) => ActionWithPayload<number>;
-export type SetTodoActionType = (todos: TodoType[]) => ActionWithPayload<TodoType[]>;
-export type FetchTodosActionType = () => (dispatch: Dispatch<any>) => Promise<any>;
 
 export const addTodo: AddTodoActionType = createAction(ADD_TODO);
 export const removeTodo: RemoveTodoActionType = createAction(REMOVE_TODO);

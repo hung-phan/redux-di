@@ -1,15 +1,15 @@
 import { get } from "lodash";
 
-const fromRoot = (path: string, selector: Function): Function =>
-  (state: Object, ...args: any[]): any => selector(get(state, path), ...args);
+export type SelectorFunction<S> = (state: Object, ...args: any[]) => S;
 
-export default (
-  selectors: { [key: string]: Function },
-  path: string
-): { [key: string]: Function } => Object.keys(selectors).reduce(
-  (obj: { [key: string]: Function }, key) => {
-    obj[key] = fromRoot(path, selectors[key]);
-    return obj;
-  },
-  {}
-);
+const fromRoot = <S>(path: string, selector: SelectorFunction<S>): SelectorFunction<S> =>
+  (state, ...args) => selector(get(state, path), ...args);
+
+export default <S extends Object>(selectors: S, path: string): S =>
+  Object.keys(selectors).reduce(
+    (obj: S, key: string) => {
+      obj[key] = fromRoot(path, selectors[key]);
+      return obj;
+    },
+    Object.create(null)
+  );
