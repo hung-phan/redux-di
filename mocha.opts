@@ -1,0 +1,5 @@
+--recursive
+--compilers js:./compiler
+--compilers tsx:./compiler
+
+src/**/__tests__/*.ts
