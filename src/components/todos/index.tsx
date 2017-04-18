@@ -33,11 +33,7 @@ export const Todos = ({ todos, actions }: TodosPropType & TodosPropActionType) =
     <div className="row">
       <TodosHeader />
       <TodosAdd addTodo={actions.addTodo}/>
-      <TodosBody
-        todos={todos}
-        removeTodo={actions.removeTodo}
-        completeTodo={actions.completeTodo}
-      />
+      <TodosBody todos={todos} removeTodo={actions.removeTodo} completeTodo={actions.completeTodo}/>
       <TodosFooter />
     </div>
   </div>

@@ -1,4 +1,4 @@
-export const getUrl = (url: string): string => {
+export const getUrl = (url: string): string | never => {
   if (process.env.RUNTIME_ENV === "client") {
     return url;
   }
