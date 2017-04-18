@@ -7,7 +7,7 @@ export default ({ todos, completeTodo, removeTodo }: {
   todos: TodoType[],
   completeTodo: CompleteTodoActionType,
   removeTodo: RemoveTodoActionType
-}) => (
+}): JSX.Element => (
   <div className={`col-md-12 ${style.container}`}>
     <table className="table">
       <tbody>
