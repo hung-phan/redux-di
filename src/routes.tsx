@@ -1,17 +1,13 @@
-import React from "react";
+import * as React from "react";
 import { Store } from "redux";
-import { syncHistoryWithStore } from "react-router-redux";
-import { browserHistory, Route, Router } from "react-router";
+import { Route, Router } from "react-router";
 import injectReducers from "./helpers/injectReducers";
 import { AppState } from "./@types/app";
 import { History } from "history";
 
-export const getClientHistory = (store: Store<AppState>): History =>
-  syncHistoryWithStore(browserHistory, store);
-
-export const getRoutes = (history: History,
-                          store: Store<AppState>,
-                          options?: Object): JSX.Element => (
+export default (history: History,
+                store: Store<AppState>,
+                options?: Object): JSX.Element => (
   <Router history={history} {...options}>
     <Route
       path="/"

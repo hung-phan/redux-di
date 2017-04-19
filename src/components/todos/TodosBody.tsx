@@ -1,14 +1,13 @@
 import React from "react";
 import { partial } from "lodash";
 import { CompleteTodoActionType, RemoveTodoActionType, TodoType } from "./logicBundle";
-import style from "./TodosBodyStyle.css";
 
 export default ({ todos, completeTodo, removeTodo }: {
   todos: TodoType[],
   completeTodo: CompleteTodoActionType,
   removeTodo: RemoveTodoActionType
 }): JSX.Element => (
-  <div className={`col-md-12 ${style.container}`}>
+  <div className="col-md-12">
     <table className="table">
       <tbody>
       {todos.map((todo: TodoType, index: number) => {

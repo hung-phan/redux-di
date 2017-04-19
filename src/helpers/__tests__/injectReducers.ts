@@ -18,7 +18,7 @@ describe("Helper: injectReducers", () => {
   let store;
 
   beforeEach(() => {
-    store = createAppStore();
+    store = createAppStore({});
   });
 
   it("should not contain 'newReducer' state", () => {

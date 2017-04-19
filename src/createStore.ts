@@ -32,7 +32,7 @@ if (process.env.RUNTIME_ENV === "client" && (<any> window).devToolsExtension) {
   enhancers.push((<any> window).devToolsExtension());
 }
 
-export const createAppStore = (initialState = {}): Store<AppState> => {
+export const createAppStore = (initialState: Object): Store<AppState> => {
   const store = createStore(
     combineReducers<AppState>(reducers),
     initialState,
@@ -58,6 +58,6 @@ export default class AppStore {
   public readonly store: Store<AppState>;
 
   constructor() {
-    this.store = createAppStore((<any> window).prerenderData);
+    this.store = createAppStore((<any> window).prerenderData || {});
   }
 }
