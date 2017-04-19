@@ -1,8 +1,8 @@
 import { Store } from "redux";
 import * as React from "react";
-import { Router } from "react-router";
 import { Provider } from "react-redux";
 import { AppState } from "../../@types/app";
+import Router from "react-router/lib/Router";
 
 export default ({ store, routes }: { store: Store<AppState>, routes: Router }): JSX.Element => {
   let Component: JSX.Element = (

@@ -9,6 +9,7 @@ import {
   Store,
   StoreEnhancerStoreCreator
 } from "redux";
+import { injectable } from "inversify";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
 import { persistState } from "redux-devtools";
@@ -31,15 +32,7 @@ if (process.env.RUNTIME_ENV === "client" && (<any> window).devToolsExtension) {
   enhancers.push((<any> window).devToolsExtension());
 }
 
-declare module "redux" {
-  export interface Store<S> {
-    reducers: { [key: string]: Function }
-  }
-
-  export function compose<R>(...funcs: Function[]): (...args: any[]) => R;
-}
-
-export default (initialState = {}): Store<AppState> => {
+export const createAppStore = (initialState = {}): Store<AppState> => {
   const store = createStore(
     combineReducers<AppState>(reducers),
     initialState,
@@ -52,10 +45,19 @@ export default (initialState = {}): Store<AppState> => {
   // enable async reducers for each page load
   store.reducers = reducers;
 
-  if (process.env.NODE_ENV === "development" && (<any> module).hot) {
-    (<any> module).hot.accept("./createReducer", () =>
+  if (process.env.NODE_ENV === "development" && module.hot) {
+    module.hot.accept("./createReducer", () =>
       store.replaceReducer(require("./createReducer").default));
   }
 
   return store;
 };
+
+@injectable()
+export default class AppStore {
+  public readonly store: Store<AppState>;
+
+  constructor() {
+    this.store = createAppStore((<any> window).prerenderData);
+  }
+}

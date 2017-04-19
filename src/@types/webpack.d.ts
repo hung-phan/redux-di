@@ -1,3 +1,13 @@
+interface NodeRequire {
+  ensure(deps: string[], callback: (require: NodeRequire) => void, name?: string);
+}
+
+interface NodeModule {
+  hot: {
+    accept(name: string, callback: Function);
+  }
+}
+
 declare module "*.css" {
   const content: { [key: string]: string };
   export default content;
