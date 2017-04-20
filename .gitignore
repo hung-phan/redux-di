@@ -1,4 +1,4 @@
 .idea
 dist
-build
+public/assets
 node_modules

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { partial } from "lodash";
 import { CompleteTodoActionType, RemoveTodoActionType, TodoType } from "./logicBundle";
 

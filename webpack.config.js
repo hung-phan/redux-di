@@ -5,7 +5,7 @@ module.exports = {
   context: __dirname,
   entry: join(__dirname, "src", "index"),
   output: {
-    path: join(__dirname, "build"),
+    path: join(__dirname, "public/assets"),
     filename: "app.js",
     libraryTarget: "umd",
     umdNamedDefine: true

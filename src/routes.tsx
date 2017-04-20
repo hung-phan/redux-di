@@ -1,9 +1,10 @@
-import * as React from "react";
 import { Store } from "redux";
-import { Route, Router } from "react-router";
-import injectReducers from "./helpers/injectReducers";
-import { AppState } from "./@types/app";
+import * as React from "react";
 import { History } from "history";
+import { Route, Router } from "react-router";
+import Todos from "./components/todos";
+import StaticPage from "./components/static-page";
+import { AppState } from "./@types/app";
 
 export default (history: History,
                 store: Store<AppState>,
@@ -11,35 +12,11 @@ export default (history: History,
   <Router history={history} {...options}>
     <Route
       path="/"
-      getComponent={(nextState, cb) => {
-        require.ensure(
-          [
-            "./components/todos",
-            "./components/todos/logicBundle"
-          ],
-          require => {
-            const {
-              default: todosReducer,
-              mountPoint: todosMountPoint
-            } = require("./components/todos/logicBundle");
-            injectReducers(store, { [todosMountPoint]: todosReducer });
-            cb(null, require("./components/todos").default);
-          },
-          "todos-page"
-        );
-      }}
+      component={Todos}
     />
     <Route
       path="/static-page"
-      getComponent={(nextState, cb) => {
-        require.ensure(
-          ["./components/static-page"],
-          require => {
-            cb(null, require("./components/static-page").default);
-          },
-          "static-page"
-        );
-      }}
+      component={StaticPage}
     />
   </Router>
 );
